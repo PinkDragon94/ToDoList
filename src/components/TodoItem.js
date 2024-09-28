@@ -1,31 +1,32 @@
-import { useState } from 'react';
-
-const TodoItem = ({ todo, dispatch }) => {
-    const [isEditing, setIsEditing] = useState(false);
-    const [editText, setEditText] = useState(todo.text);
-
-    const handleEdit = () => {
-        dispatch({ type: 'EDIT_TODO', payload: { id: todo.id, text: editText } });
-        setIsEditing(false);
-    };
-
-    return (
-        <li>
-            {isEditing ? (
-                <>
-                    <input value={editText} onChange={e => setEditText(e.target.value)} />
-                    <button onClick={handleEdit}>Save</button>
-                </>
-            ) : (
-                <>
-                    <input type="checkbox" checked={todo.complete} onChange={() => dispatch({ type: 'TOGGLE_TODO', payload: todo.id })} />
-                    <span style={{ textDecoration: todo.complete ? 'line-through' : 'none' }}>{todo.text}</span>
-                    <button disabled={!todo.complete} onClick={() => dispatch({ type: 'DELETE_TODO', payload: todo.id })}>Delete</button>
-                    <button onClick={() => setIsEditing(true)}>Edit</button>
-                </>
-            )}
-        </li>
-    );
+const reducer = (state, action) => {
+    switch (action.type) {
+        case 'ADD_TODO':
+            return {
+                ...state,
+                todos: [{ id: Date.now(), text: action.payload, completed: false }, ...state.todos],
+            };
+        case 'TOGGLE_TODO':
+            return {
+                ...state,
+                todos: state.todos.map(todo =>
+                    todo.id === action.payload ? { ...todo, completed: !todo.completed } : todo
+                ),
+            };
+        case 'EDIT_TODO':
+            return {
+                ...state,
+                todos: state.todos.map(todo =>
+                    todo.id === action.payload.id ? { ...todo, text: action.payload.text } : todo
+                ),
+            };
+        case 'DELETE_TODO':
+            return {
+                ...state,
+                todos: state.todos.filter(todo => todo.id !== action.payload),
+            };
+        default:
+            return state;
+    }
 };
 
-export default TodoItem;
+

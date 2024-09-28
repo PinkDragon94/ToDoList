@@ -1,17 +1,25 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 const TodoForm = ({ dispatch }) => {
-    const [todoText, setTodoText] = useState('');
+    const [newTodo, setNewTodo] = useState('');
 
-    const handleSubmit = e => {
+    // Handler to add new todo
+    const handleAddTodo = (e) => {
         e.preventDefault();
-        dispatch({ type: 'ADD_TODO', payload: todoText });
-        setTodoText('');
+        if (newTodo.trim() === '') return; // Prevent adding empty todos
+        dispatch({ type: 'ADD_TODO', payload: newTodo }); // Dispatch action to add todo
+        setNewTodo(''); // Clear the input after adding
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input value={todoText} onChange={e => setTodoText(e.target.value)} placeholder="Add a New To Do Item" />
+        <form onSubmit={handleAddTodo}>
+            <input
+                type="text"
+                value={newTodo}
+                onChange={(e) => setNewTodo(e.target.value)} // Update state on input change
+                placeholder="New to Do Item.."
+                required
+            />
             <button type="submit">Add To Do</button>
         </form>
     );

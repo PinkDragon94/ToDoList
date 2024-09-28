@@ -2,15 +2,16 @@ import { TodoProvider, useTodos } from './context/TodoContext';
 import TodoList from './components/TodoList';
 import TodoForm from './components/TodoForm';
 import Header from './components/Header';
+import './App.css'; // Add styles
 
 function App() {
-    const { todos, dispatch } = useTodos();
+    const { todos, dispatch } = useTodos(); // Retrieve todos and dispatch from the context
 
     return (
-        <div className="App">
+        <div className="app-container">
             <Header />
-            <TodoForm dispatch={dispatch} />
-            <TodoList todos={todos} dispatch={dispatch} />
+            <TodoForm dispatch={dispatch} /> {/* Form to add new todos */}
+            <TodoList todos={todos} dispatch={dispatch} /> {/* List of todos */}
         </div>
     );
 }
