@@ -11,8 +11,8 @@ const TodoForm = ({ dispatch }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <input value={todoText} onChange={e => setTodoText(e.target.value)} placeholder="Add a new todo" />
-            <button type="submit">Add Todo</button>
+            <input value={todoText} onChange={e => setTodoText(e.target.value)} placeholder="Add a New To Do Item" />
+            <button type="submit">Add To Do</button>
         </form>
     );
 };
